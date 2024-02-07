@@ -4,7 +4,10 @@
   "description": "",
   "main": "server/dist/server.js",
   "scripts": {
-    "start": "nodemon server/server.ts",
+    "start": "node server/server.ts",
+    "server": "nodemon server/server.ts",
+    "client": "npm run dev --prefix frontend",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -16,6 +19,7 @@
     "@types/morgan": "^1.9.9",
     "@typescript-eslint/eslint-plugin": "^6.21.0",
     "@typescript-eslint/parser": "^6.21.0",
+    "concurrently": "^8.2.2",
     "eslint": "^8.56.0",
     "nodemon": "^3.0.3",
     "ts-node": "^10.9.2",
