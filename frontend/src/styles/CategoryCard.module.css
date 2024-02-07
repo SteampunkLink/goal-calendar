@@ -1,0 +1,21 @@
+.categoryCard {
+  background-color: #f6df84;
+  cursor: pointer;
+  margin: 8px auto;
+  transition: filter 0.2s ease-in-out;
+  width: 80%;
+}
+
+.categoryCard:hover {
+  filter: drop-shadow(5px 5px 5px #746433);
+}
+
+.categoryCardBody {
+  /* mask-image: linear-gradient(180deg, #000 60%, transparent); */
+  overflow: hidden;
+}
+
+.categoryCardText {
+  color: black;
+  font-family: "Times New Roman", Times, serif;
+}
