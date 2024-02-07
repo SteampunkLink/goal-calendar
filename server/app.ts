@@ -2,16 +2,14 @@ import "dotenv/config";
 import express, { NextFunction, Request, Response } from "express";
 import morgan from "morgan";
 import createHttpError, { isHttpError } from "http-errors";
-import goalCategoryRoutes from "./routes/goalCategoryRoutes";
-import goalRoutes from "./routes/goalRoutes";
+import goalListRoutes from "./routes/goalListRoutes";
 
 const app = express();
 
 app.use(morgan("dev"));
 app.use(express.json());
 
-app.use("/api/goalcategories", goalCategoryRoutes);
-app.use("/api/goals", goalRoutes);
+app.use("/api/goals", goalListRoutes);
 
 // error handlers
 app.use((req, res, next) => {
