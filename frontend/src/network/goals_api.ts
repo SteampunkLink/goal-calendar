@@ -1,5 +1,4 @@
-import { Goal } from "../models/goals";
-import { GoalCategory } from "../models/goalCategories";
+import { GoalList } from "../models/goalList";
 
 const fetchData = async (input: RequestInfo, init?: RequestInit) => {
   const response = await fetch(input, init);
@@ -12,36 +11,26 @@ const fetchData = async (input: RequestInfo, init?: RequestInit) => {
   }
 };
 
-export const fetchGoals = async (): Promise<{
-  goals: Goal[];
-  categories: GoalCategory[];
-}> => {
+export const fetchGoalLists = async (): Promise<GoalList[]> => {
   const goalResponse = await fetchData("/api/goals", { method: "GET" });
-  const categoryResponse = await fetchData("/api/goalcategories", {
-    method: "GET",
-  });
-  const goalsData = await goalResponse.json();
-  const categoryData = await categoryResponse.json();
-  return {
-    goals: goalsData.goals,
-    categories: categoryData.categories,
-  };
+  const goalData = await goalResponse.json();
+  return goalData;
 };
 
-export interface GoalCategoryInput {
+export interface GoalListInputInterface {
   title: string;
-  style: number;
+  desc?: string;
+  style: string;
+  goals?: [{ text?: string; sticker?: number }];
 }
 
-export const createGoalCategory = async (
-  newGoalCategory: GoalCategoryInput
-): Promise<GoalCategory> => {
-  const response = await fetchData("/api/goalcategories", {
+export const createGoalList = async (
+  newGoalList: GoalListInputInterface
+): Promise<GoalList> => {
+  const response = await fetchData("/api/goals", {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(newGoalCategory),
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(newGoalList),
   });
   return response.json();
 };

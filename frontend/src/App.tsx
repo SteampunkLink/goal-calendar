@@ -1,22 +1,19 @@
 import { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
-import { Goal } from "./models/goals";
-import { GoalCategory } from "./models/goalCategories";
+import { GoalList } from "./models/goalList";
 import CategoryCard from "./components/CategoryCard";
 import * as GoalsApi from "./network/goals_api";
 import AddCategoryModal from "./components/AddCategoryModal";
 
 function App() {
-  const [goals, setGoals] = useState<Goal[]>([]);
-  const [categories, setCategories] = useState<GoalCategory[]>([]);
+  const [goalLists, setGoalLists] = useState<GoalList[]>([]);
   const [showAddCategoryModal, setShowAddCategoryModal] = useState(false);
 
   useEffect(() => {
     const loadGoals = async () => {
       try {
-        const goalData = await GoalsApi.fetchGoals();
-        setGoals(goalData.goals);
-        setCategories(goalData.categories);
+        const goalData = await GoalsApi.fetchGoalLists();
+        setGoalLists(goalData);
       } catch (error) {
         console.log(error);
       }
@@ -29,14 +26,9 @@ function App() {
       <Button onClick={() => setShowAddCategoryModal(true)}>
         Add New Category
       </Button>
-      {categories.length &&
-        categories.map((cat) => (
-          <CategoryCard
-            key={cat._id}
-            category={cat}
-            goals={goals.filter((g) => g.category === cat._id)}
-          ></CategoryCard>
-        ))}
+      {goalLists.map((list) => (
+        <CategoryCard key={list._id} list={list}></CategoryCard>
+      ))}
       {showAddCategoryModal && (
         <AddCategoryModal onDismiss={() => setShowAddCategoryModal(false)} />
       )}
