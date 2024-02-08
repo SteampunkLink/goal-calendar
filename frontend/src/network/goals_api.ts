@@ -34,3 +34,19 @@ export const createGoalList = async (
   });
   return response.json();
 };
+
+export const updateGoalList = async (
+  goalListId: string,
+  goalListInput: GoalListInputInterface
+): Promise<GoalList> => {
+  const response = await fetchData(`/api/goals/${goalListId}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(goalListInput),
+  });
+  return response.json();
+};
+
+export const deleteGoalList = async (goalListId: string) => {
+  await fetchData(`/api/goals/${goalListId}`, { method: "DELETE" });
+};
