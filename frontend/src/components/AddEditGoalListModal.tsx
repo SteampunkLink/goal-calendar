@@ -2,6 +2,7 @@ import { Modal, Form, Button } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { GoalList } from "../models/goalList";
 import { GoalListInputInterface } from "../network/goals_api";
+import TextInput from "./form/TextInput";
 import * as GoalsApi from "../network/goals_api";
 
 interface AddEditGoalListModalProps {
@@ -52,27 +53,24 @@ const AddEditGoalListModal = ({
       </Modal.Header>
       <Modal.Body>
         <Form id="addEditGoalListForm" onSubmit={handleSubmit(onSubmit)}>
-          <Form.Group className="mb-3">
-            <Form.Label>Title</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Title"
-              isInvalid={!!errors.title}
-              {...register("title", { required: "Required" })}
-            />
-            <Form.Control.Feedback type="invalid">
-              {errors.title?.message}
-            </Form.Control.Feedback>
-          </Form.Group>
-          <Form.Group className="mb-3">
-            <Form.Label>Description (optional)</Form.Label>
-            <Form.Control
-              as="textarea"
-              rows={6}
-              placeholder="Text"
-              {...register("desc")}
-            />
-          </Form.Group>
+          <TextInput
+            name="title"
+            label="Title"
+            type="text"
+            placeholder="Title"
+            register={register}
+            registerOptions={{ required: "Required" }}
+            error={errors.title}
+          />
+          <TextInput
+            name="desc"
+            label="Description (optional)"
+            as="textarea"
+            rows={6}
+            placeholder="Text"
+            register={register}
+          />
+
           <Form.Group className="mb-3">
             <Form.Label>List Theme</Form.Label>
             <Form.Select

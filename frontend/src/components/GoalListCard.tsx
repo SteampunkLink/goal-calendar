@@ -1,8 +1,8 @@
-import styles from "../styles/CategoryCard.module.css";
 import { Card } from "react-bootstrap";
 import { MdDelete } from "react-icons/md";
 import { GoalList } from "../models/goalList";
-import { formatDate } from "../utils/formateDate";
+import { formatDate } from "../utils/formatDate";
+import styles from "../styles/GoalListCard.module.css";
 import utilStyles from "../styles/Utils.module.css";
 
 interface GoalListCardProps {

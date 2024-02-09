@@ -1,15 +1,5 @@
+import { fetchData } from "../utils/fetchData";
 import { GoalList } from "../models/goalList";
-
-const fetchData = async (input: RequestInfo, init?: RequestInit) => {
-  const response = await fetch(input, init);
-  if (response.ok) {
-    return response;
-  } else {
-    const errorBody = await response.json();
-    const errorMsg = errorBody.error;
-    throw Error(errorMsg);
-  }
-};
 
 export const fetchGoalLists = async (): Promise<GoalList[]> => {
   const goalResponse = await fetchData("/api/goals", { method: "GET" });
