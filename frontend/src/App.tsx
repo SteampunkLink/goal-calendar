@@ -1,13 +1,14 @@
 import { useState, useEffect } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Container } from "react-bootstrap";
-import styles from "./styles/GoalListPage.module.css";
 import RegisterModal from "./components/RegisterModal";
 import LoginModal from "./components/LoginModal";
 import NavBar from "./components/NavBar";
 import { User } from "./models/user";
 import * as UsersApi from "./network/users_api";
-import NotesPageLoggedInView from "./components/NotesPageLoggedInView";
-import NotesPageLoggedOutView from "./components/NotesPageLoggedOutView";
+import GoalListView from "./views/GoalListView";
+import AboutView from "./views/AboutView";
+import PageNotFoundView from "./views/PageNotFoundView";
 
 function App() {
   const [loggedInUser, setLoggedInUser] = useState<User | null>(null);
@@ -26,41 +27,44 @@ function App() {
     fetchLoggedInUser();
   }, []);
   return (
-    <div>
-      <NavBar
-        loggedInUser={loggedInUser}
-        onRegisterClicked={() => setShowRegisterModal(true)}
-        onLoginClicked={() => setShowLoginModal(true)}
-        onLogoutSuccess={() => setLoggedInUser(null)}
-      />
-      <Container className={styles.goalListPage}>
-        <>
-          {loggedInUser ? (
-            <NotesPageLoggedInView />
-          ) : (
-            <NotesPageLoggedOutView />
-          )}
-        </>
-      </Container>
-      {showRegisterModal && (
-        <RegisterModal
-          onDismiss={() => setShowRegisterModal(false)}
-          onRegisterSuccess={(user) => {
-            setLoggedInUser(user);
-            setShowRegisterModal(false);
-          }}
+    <BrowserRouter>
+      <div>
+        <NavBar
+          loggedInUser={loggedInUser}
+          onRegisterClicked={() => setShowRegisterModal(true)}
+          onLoginClicked={() => setShowLoginModal(true)}
+          onLogoutSuccess={() => setLoggedInUser(null)}
         />
-      )}
-      {showLoginModal && (
-        <LoginModal
-          onDismiss={() => setShowLoginModal(false)}
-          onLoginSuccess={(user) => {
-            setLoggedInUser(user);
-            setShowLoginModal(false);
-          }}
-        />
-      )}
-    </div>
+        <Container>
+          <Routes>
+            <Route
+              path="/"
+              element={<GoalListView loggedInUser={loggedInUser} />}
+            />
+            <Route path="/about" element={<AboutView />} />
+            <Route path="/*" element={<PageNotFoundView />} />
+          </Routes>
+        </Container>
+        {showRegisterModal && (
+          <RegisterModal
+            onDismiss={() => setShowRegisterModal(false)}
+            onRegisterSuccess={(user) => {
+              setLoggedInUser(user);
+              setShowRegisterModal(false);
+            }}
+          />
+        )}
+        {showLoginModal && (
+          <LoginModal
+            onDismiss={() => setShowLoginModal(false)}
+            onLoginSuccess={(user) => {
+              setLoggedInUser(user);
+              setShowLoginModal(false);
+            }}
+          />
+        )}
+      </div>
+    </BrowserRouter>
   );
 }
 

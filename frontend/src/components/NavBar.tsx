@@ -1,4 +1,5 @@
 import { Navbar, Container, Nav } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import { User } from "../models/user";
 import NavBarLoggedInView from "./NavBarLoggedInView";
 import NavBarLoggedOutView from "./NavBarLoggedOutView";
@@ -19,9 +20,16 @@ const NavBar = ({
   return (
     <Navbar bg="primary" variant="dark" expand="sm" sticky="top">
       <Container>
-        <Navbar.Brand>Goals Calendar</Navbar.Brand>
+        <Navbar.Brand as={Link} to="/">
+          Goals Calendar
+        </Navbar.Brand>
         <Navbar.Toggle aria-controls="main-navbar"></Navbar.Toggle>
         <Navbar.Collapse id="main-navbar">
+          <Nav>
+            <Nav.Link as={Link} to="/about">
+              About
+            </Nav.Link>
+          </Nav>
           <Nav className="ms-auto">
             {loggedInUser ? (
               <NavBarLoggedInView
