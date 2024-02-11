@@ -11,7 +11,6 @@ const NavBarLoggedInView = ({
   user,
   onLogoutSuccess,
 }: NavBarLoggedInViewPropsInterface) => {
-  console.log(user);
   const logout = async () => {
     try {
       await UsersApi.logout();

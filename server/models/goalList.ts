@@ -2,6 +2,7 @@ import { InferSchemaType, Schema, model } from "mongoose";
 
 const goalListSchema = new Schema(
   {
+    userId: { type: Schema.Types.ObjectId, required: true },
     title: { type: String, required: true },
     desc: { type: String },
     style: { type: String, required: true },

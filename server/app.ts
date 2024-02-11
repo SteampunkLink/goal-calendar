@@ -7,6 +7,7 @@ import MongoStore from "connect-mongo";
 import goalListRoutes from "./routes/goalListRoutes";
 import userRoutes from "./routes/userRoutes";
 import env from "./util/validateEnv";
+import { requiresAuth } from "./middleware/auth";
 
 const app = express();
 
@@ -29,7 +30,7 @@ app.use(
 );
 
 app.use("/api/users", userRoutes);
-app.use("/api/goals", goalListRoutes);
+app.use("/api/goals", requiresAuth, goalListRoutes);
 
 // error handlers
 app.use((req, res, next) => {

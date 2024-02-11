@@ -1,10 +1,12 @@
+import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Modal, Form, Button } from "react-bootstrap";
+import { Modal, Form, Button, Alert } from "react-bootstrap";
 import { User } from "../models/user";
 import { RegisterCredentialsInterface } from "../network/users_api";
 import * as UsersApi from "../network/users_api";
 import TextInput from "./form/TextInput";
 import utilStyles from "../styles/Utils.module.css";
+import { ConflictError } from "./errors/http_errors";
 
 interface RegisterModalPropsInterface {
   onDismiss: () => void;
@@ -14,6 +16,7 @@ const RegisterModal = ({
   onDismiss,
   onRegisterSuccess,
 }: RegisterModalPropsInterface) => {
+  const [errorText, setErrorText] = useState<string | null>(null);
   const {
     register,
     handleSubmit,
@@ -25,7 +28,11 @@ const RegisterModal = ({
       const newUser = await UsersApi.register(credentials);
       onRegisterSuccess(newUser);
     } catch (error) {
-      console.log(error);
+      if (error instanceof ConflictError) {
+        setErrorText(error.message);
+      } else {
+        console.log(error);
+      }
     }
   };
 
@@ -34,6 +41,7 @@ const RegisterModal = ({
       <Modal.Header closeButton>
         <Modal.Title>Register</Modal.Title>
       </Modal.Header>
+      {errorText && <Alert variant="danger">{errorText}</Alert>}
       <Modal.Body>
         <Form onSubmit={handleSubmit(onSubmit)}>
           <TextInput

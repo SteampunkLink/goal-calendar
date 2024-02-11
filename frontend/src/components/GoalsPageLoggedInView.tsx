@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
 import { Button, Spinner } from "react-bootstrap";
 import { FaPlus } from "react-icons/fa";
-import AddEditGoalListModal from "../components/AddEditGoalListModal";
-import GoalListCard from "../components/GoalListCard";
+import AddEditGoalListModal from "./AddEditGoalListModal";
+import GoalListCard from "./GoalListCard";
 import { GoalList } from "../models/goalList";
 import * as GoalsApi from "../network/goals_api";
 import utilStyles from "../styles/Utils.module.css";
 
-const NotesPageLoggedInView = () => {
+const GoalsPageLoggedInView = () => {
   const [goalLists, setGoalLists] = useState<GoalList[]>([]);
   const [goalsLoading, setGoalsLoading] = useState(true);
   const [showGoalsLoadingError, setShowGoalsLoadingError] = useState(false);
@@ -103,4 +103,4 @@ const NotesPageLoggedInView = () => {
   );
 };
 
-export default NotesPageLoggedInView;
+export default GoalsPageLoggedInView;
