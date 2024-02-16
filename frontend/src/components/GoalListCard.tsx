@@ -1,9 +1,12 @@
+import { useState } from "react";
 import { Card } from "react-bootstrap";
-import { MdDelete } from "react-icons/md";
-import { GoalList } from "../models/goalList";
+import { FaTrash } from "react-icons/fa";
+import { Goal, GoalList } from "../models/goalList";
 import { formatDate } from "../utils/formatDate";
 import styles from "../styles/GoalListCard.module.css";
 import utilStyles from "../styles/Utils.module.css";
+import AddGoalForm from "./AddGoalForm";
+import IndividualGoal from "./IndividualGoal";
 
 interface GoalListCardProps {
   list: GoalList;
@@ -16,33 +19,51 @@ const GoalListCard = ({
   onNoteClicked,
   onDeleteNoteClicked,
 }: GoalListCardProps) => {
+  const [goalsInList, setGoalsInList] = useState<Goal[]>(list.goals);
   let createdUpdatedText: string;
   if (list.updatedAt > list.createdAt) {
     createdUpdatedText = "Updated " + formatDate(list.updatedAt);
   } else {
     createdUpdatedText = "Created " + formatDate(list.createdAt);
   }
+
+  const handleDelete = (goalId: string) => {
+    setGoalsInList(goalsInList.filter((g) => g._id !== goalId));
+  };
+
   return (
     <Card className={styles.goalListCard} onClick={() => onNoteClicked(list)}>
       <Card.Body className={styles.goalListCardBody}>
-        <Card.Title className={utilStyles.flexCenter}>
-          {list.title}
-          <MdDelete
-            className="text-muted ms-auto"
-            onClick={(e) => {
-              onDeleteNoteClicked(list);
-              e.stopPropagation();
-            }}
+        <div className={styles.goalListCardCategory}>
+          <Card.Title className={utilStyles.flexCenter}>
+            {list.title}
+          </Card.Title>
+        </div>
+        <div className={styles.goalListCardBodyGoals}>
+          <AddGoalForm
+            listId={list._id}
+            onAddNewGoal={(newGoals) => setGoalsInList(newGoals)}
           />
-        </Card.Title>
-        {list.goals &&
-          list.goals.map((goal) => (
-            <Card.Text key={goal._id} className={styles.goalListCardText}>
-              {goal.text}
-            </Card.Text>
-          ))}
+          {goalsInList.length > 0 &&
+            goalsInList.map((goal) => (
+              <IndividualGoal
+                key={goal._id}
+                listId={list._id}
+                goal={goal}
+                onGoalDelete={(goalId) => handleDelete(goalId)}
+              />
+            ))}
+        </div>
       </Card.Body>
-      <Card.Footer className="text-muted">{createdUpdatedText}</Card.Footer>
+      <Card.Footer className={styles.goalListCardFooter}>
+        {createdUpdatedText}
+        <FaTrash
+          onClick={(e) => {
+            onDeleteNoteClicked(list);
+            e.stopPropagation();
+          }}
+        />
+      </Card.Footer>
     </Card>
   );
 };

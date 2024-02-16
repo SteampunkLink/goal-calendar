@@ -1,0 +1,12 @@
+.individualGoal {
+  align-items: flex-end;
+  display: flex;
+  flex-direction: row;
+  font-size: 1.2em;
+  justify-content: flex-start;
+}
+
+.individualGoal button {
+  font-size: 0.5em;
+  margin: 5px 8px 5px 0;
+}

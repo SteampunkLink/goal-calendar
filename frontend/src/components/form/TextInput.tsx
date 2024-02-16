@@ -20,7 +20,7 @@ const TextInput = ({
 }: TextInputFieldPropsInterface) => {
   return (
     <Form.Group className="mb-3" controlId={`${name}-input`}>
-      <Form.Label>{label}</Form.Label>
+      {!!label && <Form.Label>{label}</Form.Label>}
       <Form.Control
         {...props}
         {...register(name, registerOptions)}

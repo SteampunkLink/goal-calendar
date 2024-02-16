@@ -3,7 +3,13 @@ export interface GoalList {
   title: string;
   desc?: string;
   style: string;
-  goals?: [{ _id: string; text?: string; sticker?: number }];
+  goals: [Goal];
   createdAt: string;
   updatedAt: string;
+}
+
+export interface Goal {
+  _id: string;
+  text: string;
+  sticker: number;
 }
