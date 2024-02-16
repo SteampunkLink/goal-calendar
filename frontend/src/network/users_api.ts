@@ -1,8 +1,9 @@
 import { fetchData } from "../utils/fetchData";
+import { USER_API } from "../utils/constants";
 import { User } from "../models/user";
 
 export const getLoggedInUser = async (): Promise<User> => {
-  const response = await fetchData("/api/users", { method: "GET" });
+  const response = await fetchData(USER_API, { method: "GET" });
   return response.json();
 };
 
@@ -15,7 +16,7 @@ export interface RegisterCredentialsInterface {
 export const register = async (
   credentials: RegisterCredentialsInterface
 ): Promise<User> => {
-  const response = await fetchData("/api/users/register", {
+  const response = await fetchData(`${USER_API}/register`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(credentials),
@@ -31,7 +32,7 @@ export interface LoginCredentialsInterface {
 export const login = async (
   credentials: LoginCredentialsInterface
 ): Promise<User> => {
-  const response = await fetchData("/api/users/login", {
+  const response = await fetchData(`${USER_API}/login`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(credentials),
@@ -40,5 +41,5 @@ export const login = async (
 };
 
 export const logout = async () => {
-  await fetchData("/api/users/logout", { method: "POST" });
+  await fetchData(`${USER_API}/logout`, { method: "POST" });
 };

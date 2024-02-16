@@ -125,7 +125,7 @@ export const updateGoalList: RequestHandler<
 };
 
 export interface EditGoalInListInterface {
-  goal?: { text?: string; sticker?: number };
+  goal?: string;
 }
 
 export const addGoalToList: RequestHandler<
@@ -140,7 +140,7 @@ export const addGoalToList: RequestHandler<
   try {
     assertIsDefined(authenticatedUserId);
 
-    if (!goal || !goal.text) {
+    if (!goal) {
       throw createHttpError(400, "Goal cannot be empty.");
     }
 
@@ -159,31 +159,35 @@ export const addGoalToList: RequestHandler<
     }
 
     const newGoal = {
-      text: goal.text,
-      sticker: goal.sticker || 0,
+      text: goal,
+      sticker: 0,
     };
 
     goalList.goals.push(newGoal);
     await goalList.save();
-    res.status(200).json(goalList);
+    res.status(200).json(goalList.goals);
   } catch (error) {
     next(error);
   }
 };
 
+export interface DeleteGoalInListInterface {
+  goalId?: string;
+}
+
 export const removeGoalFromList: RequestHandler<
   UpdateGoalListParamsInterface,
   unknown,
-  EditGoalInListInterface,
+  DeleteGoalInListInterface,
   unknown
 > = async (req, res, next) => {
   const goalListId = req.params.id;
-  const goal = req.body.goal;
+  const goalId = req.body.goalId;
   const authenticatedUserId = req.session.userId;
   try {
     assertIsDefined(authenticatedUserId);
 
-    if (!goal || !goal.text) {
+    if (!goalId) {
       throw createHttpError(400, "No goal to delete.");
     }
 
@@ -201,9 +205,9 @@ export const removeGoalFromList: RequestHandler<
       throw createHttpError(401, "Unauthorized");
     }
 
-    goalList.goals.pull({ text: goal.text });
+    goalList.goals.pull({ _id: goalId });
     await goalList.save();
-    res.status(200).json(goalList);
+    res.status(200).json({ goalToDelete: goalId });
   } catch (error) {
     next(error);
   }
