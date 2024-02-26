@@ -1,45 +1,44 @@
 import { Modal, Form, Button } from "react-bootstrap";
 import { useForm } from "react-hook-form";
-import { GoalList } from "../models/goalList";
-import { GoalListInputInterface } from "../network/goals_api";
+import { Category } from "../models/category";
+import { CategoryInputInterface } from "../network/categories_api";
 import TextInput from "./form/TextInput";
-import * as GoalsApi from "../network/goals_api";
+import * as CategoriesApi from "../network/categories_api";
 
-interface AddEditGoalListModalProps {
-  goalListToEdit?: GoalList;
+interface AddEditCategoryModalProps {
+  categoryToEdit?: Category;
   onDismiss: () => void;
-  onGoalListSaved: (goalList: GoalList) => void;
+  onCategorySaved: (category: Category) => void;
 }
 
-const AddEditGoalListModal = ({
-  goalListToEdit,
+const AddEditCategoryModal = ({
+  categoryToEdit,
   onDismiss,
-  onGoalListSaved,
-}: AddEditGoalListModalProps) => {
+  onCategorySaved,
+}: AddEditCategoryModalProps) => {
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<GoalListInputInterface>({
+  } = useForm<CategoryInputInterface>({
     defaultValues: {
-      title: goalListToEdit?.title || "",
-      desc: goalListToEdit?.desc || "",
-      style: goalListToEdit?.style || "stars",
+      title: categoryToEdit?.title || "",
+      style: categoryToEdit?.style || "stars",
     },
   });
 
-  const onSubmit = async (input: GoalListInputInterface) => {
+  const onSubmit = async (input: CategoryInputInterface) => {
     try {
-      let goalListReponse: GoalList;
-      if (goalListToEdit) {
-        goalListReponse = await GoalsApi.updateGoalList(
-          goalListToEdit._id,
+      let categoryResponse: Category;
+      if (categoryToEdit) {
+        categoryResponse = await CategoriesApi.updateCategory(
+          categoryToEdit._id,
           input
         );
       } else {
-        goalListReponse = await GoalsApi.createGoalList(input);
+        categoryResponse = await CategoriesApi.createCategory(input);
       }
-      onGoalListSaved(goalListReponse);
+      onCategorySaved(categoryResponse);
     } catch (error) {
       console.log(error);
     }
@@ -48,11 +47,11 @@ const AddEditGoalListModal = ({
     <Modal show onHide={onDismiss}>
       <Modal.Header closeButton>
         <Modal.Title>
-          {goalListToEdit ? "Edit Goal List" : "Add New Goal List"}
+          {categoryToEdit ? "Edit Category" : "Add New Category"}
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Form id="addEditGoalListForm" onSubmit={handleSubmit(onSubmit)}>
+        <Form id="addEditCategoryForm" onSubmit={handleSubmit(onSubmit)}>
           <TextInput
             name="title"
             label="Title"
@@ -61,14 +60,6 @@ const AddEditGoalListModal = ({
             register={register}
             registerOptions={{ required: "Required" }}
             error={errors.title}
-          />
-          <TextInput
-            name="desc"
-            label="Description (optional)"
-            as="textarea"
-            rows={6}
-            placeholder="Text"
-            register={register}
           />
 
           <Form.Group className="mb-3">
@@ -80,6 +71,7 @@ const AddEditGoalListModal = ({
               <option value="stars">Stars</option>
               <option value="music">Music</option>
               <option value="fitness">Fitness</option>
+              <option value="games">Games</option>
             </Form.Select>
             <Form.Control.Feedback type="invalid">
               {errors.style?.message}
@@ -90,7 +82,7 @@ const AddEditGoalListModal = ({
       <Modal.Footer>
         <Button
           type="submit"
-          form="addEditGoalListForm"
+          form="addEditCategoryForm"
           disabled={isSubmitting}
         >
           Submit
@@ -100,4 +92,4 @@ const AddEditGoalListModal = ({
   );
 };
 
-export default AddEditGoalListModal;
+export default AddEditCategoryModal;
