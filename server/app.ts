@@ -4,8 +4,9 @@ import morgan from "morgan";
 import createHttpError, { isHttpError } from "http-errors";
 import session from "express-session";
 import MongoStore from "connect-mongo";
-import goalListRoutes from "./routes/goalListRoutes";
+import categoryRoutes from "./routes/categoryRoutes";
 import userRoutes from "./routes/userRoutes";
+import goalRoutes from "./routes/goalRoutes";
 import env from "./util/validateEnv";
 import { requiresAuth } from "./middleware/auth";
 
@@ -30,7 +31,8 @@ app.use(
 );
 
 app.use("/api/users", userRoutes);
-app.use("/api/goals", requiresAuth, goalListRoutes);
+app.use("/api/categories", requiresAuth, categoryRoutes);
+app.use("/api/goals", requiresAuth, goalRoutes);
 
 // error handlers
 app.use((req, res, next) => {

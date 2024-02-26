@@ -1,55 +1,61 @@
-import { FormEvent, useState } from "react";
 import { Button, Form, Row, Col } from "react-bootstrap";
-// import { useForm } from "react-hook-form";
 import { FaPlus } from "react-icons/fa";
-// import TextInput from "./form/TextInput";
-// import { GoalInterface } from "../network/goals_api";
+import { useForm } from "react-hook-form";
+import { NewGoalInputInterface } from "../network/goals_api";
 import * as GoalsApi from "../network/goals_api";
-import { Goal } from "../models/goalList";
+import { Goal } from "../models/goal";
+import TextInput from "./form/TextInput";
 
 interface AddGoalFormProps {
-  listId: string;
-  onAddNewGoal: (newGoals: Goal[]) => void;
+  categoryId: string;
+  onAddNewGoal: (newGoal: Goal) => void;
 }
 
-const AddGoalForm = ({ listId, onAddNewGoal }: AddGoalFormProps) => {
-  const [newGoalText, setNewGoalText] = useState<string>("");
+const AddGoalForm = ({ categoryId, onAddNewGoal }: AddGoalFormProps) => {
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitting },
+  } = useForm<NewGoalInputInterface>({
+    defaultValues: {
+      goalText: "",
+    },
+  });
 
-  const handleNewGoalSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const onSubmit = async (input: NewGoalInputInterface) => {
     try {
-      if (newGoalText) {
-        const newGoalResponse = await GoalsApi.addGoalToList(
-          listId,
-          newGoalText
-        );
-        setNewGoalText("");
-        onAddNewGoal(newGoalResponse);
-      }
+      const goalresponse = await GoalsApi.createGoal(
+        categoryId,
+        input.goalText
+      );
+      onAddNewGoal(goalresponse);
+      reset();
     } catch (error) {
       console.log(error);
     }
   };
 
   return (
-    <Form
-      id="addNewGoal"
-      onSubmit={(e) => handleNewGoalSubmit(e)}
-      onClick={(e) => e.stopPropagation()}
-    >
+    <Form id={`addNewGoal-${categoryId}`} onSubmit={handleSubmit(onSubmit)}>
       <Row className="align-items-top justify-content-sm-center">
         <Col sm={10}>
-          <Form.Control
+          <TextInput
+            name="goalText"
+            label="New Goal"
             type="text"
-            name="goal"
-            value={newGoalText}
-            onChange={(e) => setNewGoalText(e.target.value)}
-            placeholder="New goal text"
-            aria-label="New goal text"
+            placeholder="New Goal"
+            register={register}
+            registerOptions={{ required: true }}
+            error={errors.goalText}
           />
         </Col>
         <Col sm={2}>
-          <Button type="submit" form="addNewGoal">
+          <Button
+            type="submit"
+            form={`addNewGoal-${categoryId}`}
+            disabled={isSubmitting}
+          >
             <FaPlus />
           </Button>
         </Col>

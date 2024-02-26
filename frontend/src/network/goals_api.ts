@@ -1,73 +1,38 @@
 import { fetchData } from "../utils/fetchData";
 import { GOAL_API } from "../utils/constants";
-import { GoalList, Goal } from "../models/goalList";
+import { Goal } from "../models/goal";
 
-export const fetchGoalLists = async (): Promise<GoalList[]> => {
-  const goalResponse = await fetchData(GOAL_API, { method: "GET" });
-  const goalData = await goalResponse.json();
-  return goalData;
-};
-
-export interface GoalListInputInterface {
-  title: string;
-  desc?: string;
-  style: string;
-  goals?: [{ text?: string; sticker?: number }];
+export interface NewGoalInputInterface {
+  goalText: string;
 }
 
-export const createGoalList = async (
-  newGoalList: GoalListInputInterface
-): Promise<GoalList> => {
-  const response = await fetchData(GOAL_API, {
+export const createGoal = async (
+  categoryId: string,
+  goalText: string
+): Promise<Goal> => {
+  const response = await fetchData(`${GOAL_API}/${categoryId}`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(newGoalList),
+    body: JSON.stringify({ goalText }),
   });
   return response.json();
 };
 
-export const updateGoalList = async (
-  goalListId: string,
-  goalListInput: GoalListInputInterface
-): Promise<GoalList> => {
-  const response = await fetchData(`${GOAL_API}/${goalListId}`, {
-    method: "PATCH",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(goalListInput),
-  });
-  return response.json();
-};
-
-export interface GoalInterface {
-  text?: string;
-  sticker?: number;
-}
-
-export const addGoalToList = async (
-  goalListId: string,
-  goal: string
+export const updateSticker = async (
+  categoryId: string,
+  goalId: string,
+  newSticker: number
 ): Promise<Goal[]> => {
-  const response = await fetchData(`${GOAL_API}/addgoal/${goalListId}`, {
+  const response = await fetchData(`${GOAL_API}/${goalId}/${categoryId}`, {
     method: "PATCH",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ goal }),
+    body: JSON.stringify({ newSticker }),
   });
   return response.json();
 };
 
-export const deleteGoalFromList = async (
-  goalListId: string,
-  goalId: string
-): Promise<string> => {
-  const response = await fetchData(`${GOAL_API}/removegoal/${goalListId}`, {
-    method: "PATCH",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ goalId }),
+export const deleteGoal = async (categoryId: string, goalId: string) => {
+  await fetchData(`${GOAL_API}/${goalId}/${categoryId}`, {
+    method: "DELETE",
   });
-  const result = await response.json();
-  return result.goalToDelete;
-};
-
-export const deleteGoalList = async (goalListId: string) => {
-  await fetchData(`${GOAL_API}/${goalListId}`, { method: "DELETE" });
 };

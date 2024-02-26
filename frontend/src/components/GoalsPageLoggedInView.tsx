@@ -1,27 +1,27 @@
 import { useState, useEffect } from "react";
 import { Button, Spinner } from "react-bootstrap";
 import { FaPlus } from "react-icons/fa";
-import AddEditGoalListModal from "./AddEditGoalListModal";
-import GoalListCard from "./GoalListCard";
-import { GoalList } from "../models/goalList";
-import * as GoalsApi from "../network/goals_api";
+import AddEditCategoryModal from "./AddEditCategoryModal";
+import CategoryCard from "./CategoryCard";
+import { Category } from "../models/category";
+import * as CategoriesApi from "../network/categories_api";
 import utilStyles from "../styles/Utils.module.css";
 
 const GoalsPageLoggedInView = () => {
-  const [goalLists, setGoalLists] = useState<GoalList[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
   const [goalsLoading, setGoalsLoading] = useState(true);
   const [showGoalsLoadingError, setShowGoalsLoadingError] = useState(false);
-  const [showAddEditGoalListModal, setShowAddEditGoalListModal] =
+  const [showAddEditCategoryModal, setShowAddEditCategoryModal] =
     useState(false);
-  const [goalListToEdit, setGoalListToEdit] = useState<GoalList | null>(null);
+  const [categoryToEdit, setCategoryToEdit] = useState<Category | null>(null);
 
   useEffect(() => {
     const loadGoals = async () => {
       try {
         setShowGoalsLoadingError(false);
         setGoalsLoading(true);
-        const goalData = await GoalsApi.fetchGoalLists();
-        setGoalLists(goalData);
+        const goalData = await CategoriesApi.fetchCategories();
+        setCategories(goalData);
       } catch (error) {
         console.log(error);
         setShowGoalsLoadingError(true);
@@ -32,24 +32,26 @@ const GoalsPageLoggedInView = () => {
     loadGoals();
   }, []);
 
-  const deleteList = async (listToDelete: GoalList) => {
+  const deleteCategory = async (categoryToDelete: Category) => {
     try {
-      await GoalsApi.deleteGoalList(listToDelete._id);
-      setGoalLists(goalLists.filter((list) => list._id !== listToDelete._id));
+      await CategoriesApi.deleteCategory(categoryToDelete._id);
+      setCategories(
+        categories.filter((cat) => cat._id !== categoryToDelete._id)
+      );
     } catch (error) {
       console.log(error);
     }
   };
 
-  const goalListGrid = (
+  const categoryGrid = (
     <>
-      {goalLists.map((list) => (
-        <GoalListCard
-          key={list._id}
-          list={list}
-          onNoteClicked={setGoalListToEdit}
-          onDeleteNoteClicked={deleteList}
-        ></GoalListCard>
+      {categories.map((cat) => (
+        <CategoryCard
+          key={cat._id}
+          displayedCategory={cat}
+          onNoteClicked={setCategoryToEdit}
+          onDeleteNoteClicked={deleteCategory}
+        ></CategoryCard>
       ))}
     </>
   );
@@ -58,7 +60,7 @@ const GoalsPageLoggedInView = () => {
     <>
       <Button
         className={`mt-4 ${utilStyles.blockCenter} ${utilStyles.flexCenter}`}
-        onClick={() => setShowAddEditGoalListModal(true)}
+        onClick={() => setShowAddEditCategoryModal(true)}
       >
         <FaPlus />
         Add New Category
@@ -69,33 +71,33 @@ const GoalsPageLoggedInView = () => {
       )}
       {!goalsLoading && !showGoalsLoadingError && (
         <>
-          {goalLists.length > 0 ? (
-            goalListGrid
+          {categories.length > 0 ? (
+            categoryGrid
           ) : (
             <p>No goal lists to display.</p>
           )}
         </>
       )}
-      {showAddEditGoalListModal && (
-        <AddEditGoalListModal
-          onDismiss={() => setShowAddEditGoalListModal(false)}
-          onGoalListSaved={(newGoalList) => {
-            setGoalLists([...goalLists, newGoalList]);
-            setShowAddEditGoalListModal(false);
+      {showAddEditCategoryModal && (
+        <AddEditCategoryModal
+          onDismiss={() => setShowAddEditCategoryModal(false)}
+          onCategorySaved={(newCategory) => {
+            setCategories([...categories, newCategory]);
+            setShowAddEditCategoryModal(false);
           }}
         />
       )}
-      {goalListToEdit && (
-        <AddEditGoalListModal
-          goalListToEdit={goalListToEdit}
-          onDismiss={() => setGoalListToEdit(null)}
-          onGoalListSaved={(updatedGoalList) => {
-            setGoalLists(
-              goalLists.map((list) =>
-                list._id === updatedGoalList._id ? updatedGoalList : list
+      {categoryToEdit && (
+        <AddEditCategoryModal
+          categoryToEdit={categoryToEdit}
+          onDismiss={() => setCategoryToEdit(null)}
+          onCategorySaved={(updatedCategory) => {
+            setCategories(
+              categories.map((cat) =>
+                cat._id === updatedCategory._id ? updatedCategory : cat
               )
             );
-            setGoalListToEdit(null);
+            setCategoryToEdit(null);
           }}
         />
       )}
