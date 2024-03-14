@@ -1,10 +1,10 @@
 import { Button, Form, Row, Col } from "react-bootstrap";
 import { FaPlus } from "react-icons/fa";
 import { useForm } from "react-hook-form";
-import { NewGoalInputInterface } from "../network/goals_api";
-import * as GoalsApi from "../network/goals_api";
-import { Goal } from "../models/goal";
-import TextInput from "./form/TextInput";
+import { NewGoalInputInterface } from "../../network/goals_api";
+import * as GoalsApi from "../../network/goals_api";
+import { Goal } from "../../models/goal";
+import TextInput from "../form/TextInput";
 
 interface AddGoalFormProps {
   categoryId: string;

@@ -3,9 +3,9 @@ import { Button, Spinner } from "react-bootstrap";
 import { FaPlus } from "react-icons/fa";
 import AddEditCategoryModal from "./AddEditCategoryModal";
 import CategoryCard from "./CategoryCard";
-import { Category } from "../models/category";
-import * as CategoriesApi from "../network/categories_api";
-import utilStyles from "../styles/Utils.module.css";
+import { Category } from "../../models/category";
+import * as CategoriesApi from "../../network/categories_api";
+import utilStyles from "../../styles/Utils.module.css";
 
 const GoalsPageLoggedInView = () => {
   const [categories, setCategories] = useState<Category[]>([]);

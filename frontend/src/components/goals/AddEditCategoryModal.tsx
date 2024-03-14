@@ -1,9 +1,9 @@
 import { Modal, Form, Button } from "react-bootstrap";
 import { useForm } from "react-hook-form";
-import { Category } from "../models/category";
-import { CategoryInputInterface } from "../network/categories_api";
-import TextInput from "./form/TextInput";
-import * as CategoriesApi from "../network/categories_api";
+import { Category } from "../../models/category";
+import { CategoryInputInterface } from "../../network/categories_api";
+import TextInput from "../form/TextInput";
+import * as CategoriesApi from "../../network/categories_api";
 
 interface AddEditCategoryModalProps {
   categoryToEdit?: Category;
