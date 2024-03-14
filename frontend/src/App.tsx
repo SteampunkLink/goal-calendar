@@ -9,6 +9,7 @@ import * as UsersApi from "./network/users_api";
 import GoalListView from "./views/GoalListView";
 import AboutView from "./views/AboutView";
 import PageNotFoundView from "./views/PageNotFoundView";
+import CalendarView from "./views/CalendarView";
 
 function App() {
   const [loggedInUser, setLoggedInUser] = useState<User | null>(null);
@@ -39,6 +40,11 @@ function App() {
           <Routes>
             <Route
               path="/"
+              element={<CalendarView loggedInUser={loggedInUser} />}
+            />
+
+            <Route
+              path="/goals"
               element={<GoalListView loggedInUser={loggedInUser} />}
             />
             <Route path="/about" element={<AboutView />} />

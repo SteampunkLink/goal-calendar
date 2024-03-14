@@ -33,7 +33,7 @@ const NavBar = ({
           <Nav className="ms-auto">
             {loggedInUser ? (
               <NavBarLoggedInView
-                user={loggedInUser}
+                // user={loggedInUser}
                 onLogoutSuccess={onLogoutSuccess}
               />
             ) : (

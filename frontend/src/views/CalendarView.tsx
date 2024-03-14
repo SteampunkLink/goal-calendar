@@ -1,6 +1,5 @@
 import { Container } from "react-bootstrap";
-import styles from "../styles/GoalListPage.module.css";
-import GoalsPageLoggedInView from "../components/goals/GoalsPageLoggedInView";
+import Calendar from "../components/calendar/Calendar";
 import UserLoggedOut from "../components/UserLoggedOut";
 import { User } from "../models/user";
 
@@ -9,12 +8,12 @@ interface GoalListPageProps {
 }
 const GoalListView = ({ loggedInUser }: GoalListPageProps) => {
   return (
-    <Container className={styles.goalListPage}>
+    <Container>
       <>
         {loggedInUser ? (
-          <GoalsPageLoggedInView />
+          <Calendar />
         ) : (
-          <UserLoggedOut text="Please log in to view your goals." />
+          <UserLoggedOut text="Please Log In to View Calendar." />
         )}
       </>
     </Container>

@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { Button } from "react-bootstrap";
 import { FaTimes } from "react-icons/fa";
-import { Goal } from "../models/goal";
-import * as GoalsApi from "../network/goals_api";
-import Sticker from "./Sticker";
-import styles from "../styles/IndividualGoal.module.css";
+import { Goal } from "../../models/goal";
+import * as GoalsApi from "../../network/goals_api";
+import Sticker from "../Sticker";
+import styles from "../../styles/IndividualGoal.module.css";
 
 interface IndividualGoalProps {
   categoryId: string;

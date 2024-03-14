@@ -1,14 +1,14 @@
 import { useState } from "react";
 import { Card } from "react-bootstrap";
 import { FaTrash, FaPencilAlt } from "react-icons/fa";
-import { Category } from "../models/category";
-import { Goal } from "../models/goal";
-import { formatDate } from "../utils/formatDate";
-import styles from "../styles/GoalListCard.module.css";
-import utilStyles from "../styles/Utils.module.css";
+import { Category } from "../../models/category";
+import { Goal } from "../../models/goal";
+import { formatDate } from "../../utils/formatDate";
+import styles from "../../styles/GoalListCard.module.css";
+import utilStyles from "../../styles/Utils.module.css";
 import AddGoalForm from "./AddGoalForm";
 import IndividualGoal from "./IndividualGoal";
-import StickerDisplay from "./StickerDisplay";
+import StickerDisplay from "../StickerDisplay";
 
 interface CategoryCardProps {
   displayedCategory: Category;

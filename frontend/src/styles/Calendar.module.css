@@ -1,0 +1,18 @@
+.calendarDate {
+  /* border: black 1px solid; */
+  min-height: 75px;
+  min-width: 50px;
+  outline: 1px solid black;
+}
+
+.calendarDateLabel {
+  background: rgb(31, 31, 197);
+  border-radius: 50%;
+  color: white;
+  font-size: 1.1em;
+  height: 22px;
+  justify-content: center;
+  padding-top: 3px;
+  text-align: center;
+  width: 22px;
+}

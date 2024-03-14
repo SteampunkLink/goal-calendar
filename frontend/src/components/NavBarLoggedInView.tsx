@@ -1,14 +1,16 @@
-import { Navbar, Button } from "react-bootstrap";
-import { User } from "../models/user";
+// import { Navbar, Button } from "react-bootstrap";
+import { Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
+// import { User } from "../models/user";
 import * as UsersApi from "../network/users_api";
 
 interface NavBarLoggedInViewPropsInterface {
-  user: User;
+  // user: User;
   onLogoutSuccess: () => void;
 }
 
 const NavBarLoggedInView = ({
-  user,
+  // user,
   onLogoutSuccess,
 }: NavBarLoggedInViewPropsInterface) => {
   const logout = async () => {
@@ -21,7 +23,12 @@ const NavBarLoggedInView = ({
   };
   return (
     <>
-      <Navbar.Text className="me-2">Signed in as {user.username}</Navbar.Text>
+      <Link to="/">
+        <Button>Calendar</Button>
+      </Link>
+      <Link to="/goals">
+        <Button>Goals</Button>
+      </Link>
       <Button onClick={logout}>Logout</Button>
     </>
   );
