@@ -1,0 +1,12 @@
+.datePageContainer {
+  display: flex;
+  flex-direction: row;
+}
+
+.datePageAchievementDisplay {
+  width: 60%;
+}
+
+.datePageAchievementForm {
+  width: 35%;
+}

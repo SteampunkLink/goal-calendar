@@ -16,3 +16,14 @@
   text-align: center;
   width: 22px;
 }
+
+.stickerArea {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.stickerArea div {
+  display: inline;
+}

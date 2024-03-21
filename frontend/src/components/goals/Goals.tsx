@@ -1,36 +1,28 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Button, Spinner } from "react-bootstrap";
 import { FaPlus } from "react-icons/fa";
-import AddEditCategoryModal from "./AddEditCategoryModal";
-import CategoryCard from "./CategoryCard";
-import { Category } from "../../models/category";
 import * as CategoriesApi from "../../network/categories_api";
+import { Category } from "../../models/category";
+import CategoryCard from "./CategoryCard";
+import AddEditCategoryModal from "./AddEditCategoryModal";
 import utilStyles from "../../styles/Utils.module.css";
 
-const GoalsPageLoggedInView = () => {
-  const [categories, setCategories] = useState<Category[]>([]);
-  const [goalsLoading, setGoalsLoading] = useState(true);
-  const [showGoalsLoadingError, setShowGoalsLoadingError] = useState(false);
+interface GoalsProps {
+  categories: Category[];
+  goalsLoading: boolean;
+  showGoalsError: boolean;
+  setCategories: (categories: Category[]) => void;
+}
+
+const Goals = ({
+  categories,
+  goalsLoading,
+  showGoalsError,
+  setCategories,
+}: GoalsProps) => {
   const [showAddEditCategoryModal, setShowAddEditCategoryModal] =
     useState(false);
   const [categoryToEdit, setCategoryToEdit] = useState<Category | null>(null);
-
-  useEffect(() => {
-    const loadGoals = async () => {
-      try {
-        setShowGoalsLoadingError(false);
-        setGoalsLoading(true);
-        const goalData = await CategoriesApi.fetchCategories();
-        setCategories(goalData);
-      } catch (error) {
-        console.log(error);
-        setShowGoalsLoadingError(true);
-      } finally {
-        setGoalsLoading(false);
-      }
-    };
-    loadGoals();
-  }, []);
 
   const deleteCategory = async (categoryToDelete: Category) => {
     try {
@@ -66,10 +58,10 @@ const GoalsPageLoggedInView = () => {
         Add New Category
       </Button>
       {goalsLoading && <Spinner animation="border" variant="primary" />}
-      {showGoalsLoadingError && (
+      {showGoalsError && (
         <p>Sorry, an error has occured. Please refresh the page.</p>
       )}
-      {!goalsLoading && !showGoalsLoadingError && (
+      {!goalsLoading && !showGoalsError && (
         <>
           {categories.length > 0 ? (
             categoryGrid
@@ -105,4 +97,4 @@ const GoalsPageLoggedInView = () => {
   );
 };
 
-export default GoalsPageLoggedInView;
+export default Goals;

@@ -7,6 +7,7 @@ import NavBar from "./components/NavBar";
 import { User } from "./models/user";
 import * as UsersApi from "./network/users_api";
 import GoalListView from "./views/GoalListView";
+import DateView from "./views/DateView";
 import AboutView from "./views/AboutView";
 import PageNotFoundView from "./views/PageNotFoundView";
 import CalendarView from "./views/CalendarView";
@@ -42,7 +43,10 @@ function App() {
               path="/"
               element={<CalendarView loggedInUser={loggedInUser} />}
             />
-
+            <Route
+              path="/date/:dateISO"
+              element={<DateView loggedInUser={loggedInUser} />}
+            />
             <Route
               path="/goals"
               element={<GoalListView loggedInUser={loggedInUser} />}
