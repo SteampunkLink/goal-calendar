@@ -3,10 +3,10 @@ import Calendar from "../components/calendar/Calendar";
 import UserLoggedOut from "../components/UserLoggedOut";
 import { User } from "../models/user";
 
-interface GoalListPageProps {
+interface CalendarPageProps {
   loggedInUser: User | null;
 }
-const GoalListView = ({ loggedInUser }: GoalListPageProps) => {
+const CalendarView = ({ loggedInUser }: CalendarPageProps) => {
   return (
     <Container>
       <>
@@ -20,4 +20,4 @@ const GoalListView = ({ loggedInUser }: GoalListPageProps) => {
   );
 };
 
-export default GoalListView;
+export default CalendarView;

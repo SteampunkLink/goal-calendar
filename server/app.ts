@@ -7,6 +7,7 @@ import MongoStore from "connect-mongo";
 import categoryRoutes from "./routes/categoryRoutes";
 import userRoutes from "./routes/userRoutes";
 import goalRoutes from "./routes/goalRoutes";
+import achievementRoutes from "./routes/achievementRoutes";
 import env from "./util/validateEnv";
 import { requiresAuth } from "./middleware/auth";
 
@@ -33,6 +34,7 @@ app.use(
 app.use("/api/users", userRoutes);
 app.use("/api/categories", requiresAuth, categoryRoutes);
 app.use("/api/goals", requiresAuth, goalRoutes);
+app.use("/api/achievements", requiresAuth, achievementRoutes);
 
 // error handlers
 app.use((req, res, next) => {
