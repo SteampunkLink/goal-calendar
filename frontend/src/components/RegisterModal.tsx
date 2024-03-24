@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Modal, Form, Button, Alert } from "react-bootstrap";
+import { Modal, Form, Alert } from "react-bootstrap";
 import { User } from "../models/user";
 import { RegisterCredentialsInterface } from "../network/users_api";
 import * as UsersApi from "../network/users_api";
@@ -38,48 +38,56 @@ const RegisterModal = ({
 
   return (
     <Modal show onHide={onDismiss}>
-      <Modal.Header closeButton>
-        <Modal.Title>Register</Modal.Title>
-      </Modal.Header>
-      {errorText && <Alert variant="danger">{errorText}</Alert>}
-      <Modal.Body>
-        <Form onSubmit={handleSubmit(onSubmit)}>
-          <TextInput
-            name="username"
-            label="Username"
-            type="text"
-            placeholder="Username"
-            register={register}
-            registerOptions={{ required: "Required" }}
-            error={errors.username}
-          />
-          <TextInput
-            name="email"
-            label="Email"
-            type="email"
-            placeholder="Email"
-            register={register}
-            registerOptions={{ required: "Required" }}
-            error={errors.email}
-          />
-          <TextInput
-            name="password"
-            label="Password"
-            type="password"
-            placeholder="Password"
-            register={register}
-            registerOptions={{ required: "Required" }}
-            error={errors.password}
-          />
-          <Button
+      <div className={utilStyles.modal}>
+        <Modal.Header closeButton>
+          <Modal.Title>Register</Modal.Title>
+        </Modal.Header>
+        {errorText && <Alert variant="danger">{errorText}</Alert>}
+        <div className={utilStyles.modalBreak} />
+        <Modal.Body>
+          <Form id="registerform" onSubmit={handleSubmit(onSubmit)}>
+            <TextInput
+              name="username"
+              label="Username"
+              type="text"
+              placeholder="Username"
+              register={register}
+              registerOptions={{ required: "Required" }}
+              error={errors.username}
+            />
+            <TextInput
+              name="email"
+              label="Email"
+              type="email"
+              placeholder="Email"
+              register={register}
+              registerOptions={{ required: "Required" }}
+              error={errors.email}
+            />
+            <TextInput
+              name="password"
+              label="Password"
+              type="password"
+              placeholder="Password"
+              register={register}
+              registerOptions={{ required: "Required" }}
+              error={errors.password}
+            />
+          </Form>
+        </Modal.Body>
+
+        <div className={utilStyles.modalBreak} />
+        <div className={utilStyles.modalFooter}>
+          <button
             type="submit"
+            form="registerform"
             disabled={isSubmitting}
-            className={utilStyles.width100}
+            className={utilStyles.customBtn}
           >
             Register
-          </Button>
-        </Form>
-      </Modal.Body>
+          </button>
+        </div>
+      </div>
     </Modal>
   );
 };

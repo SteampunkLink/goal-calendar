@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { User } from "../models/user";
 import NavBarLoggedInView from "./NavBarLoggedInView";
 import NavBarLoggedOutView from "./NavBarLoggedOutView";
+import styles from "../styles/Navbar.module.css";
 
 interface NavBarPropsInterface {
   loggedInUser: User | null;
@@ -18,7 +19,7 @@ const NavBar = ({
   onLogoutSuccess,
 }: NavBarPropsInterface) => {
   return (
-    <Navbar bg="primary" variant="dark" expand="sm" sticky="top">
+    <Navbar className={styles.goalsCalendarNavbar} expand="sm" sticky="top">
       <Container>
         <Navbar.Brand as={Link} to="/">
           Goals Calendar

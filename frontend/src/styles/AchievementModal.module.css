@@ -1,0 +1,45 @@
+.achievementList {
+  padding: 12px;
+}
+
+.achievementModal h2 {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  font-size: 1.5em;
+  justify-content: center;
+}
+
+.achievementModal h2 span {
+  margin: 4px;
+}
+
+.achievementModal form {
+  display: flex;
+  flex-direction: column;
+  margin: 3px auto;
+  width: 80%;
+}
+
+.achievementModal form select {
+  margin: 3px;
+}
+
+.achievementList h2 {
+  font-size: 1.5em;
+  margin-bottom: 5px;
+}
+
+.achievementListItem {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  margin: 4px;
+}
+
+.achievementListItem h3 {
+  margin: 0 8px;
+}
+
+/* ded0b6
+b2a59b */

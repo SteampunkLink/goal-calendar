@@ -11,7 +11,12 @@
   justify-content: center !important;
 }
 
+.flexCenter h2 {
+  font-size: 1.7em;
+}
+
 .width100 {
+  background: pink;
   width: 100%;
 }
 
@@ -24,4 +29,98 @@
   overflow: hidden;
   clip: rect(0, 0, 0, 0);
   border: 0;
+}
+
+.customBtn {
+  align-items: center;
+  background-color: #ded0b6;
+  border-left: #b2a59b solid 3px;
+  border-bottom: #b2a59b solid 3px;
+  border-right: #faeed1 solid 3px;
+  border-top: #faeed1 solid 3px;
+  display: flex;
+  flex-direction: row;
+  font-family: "New Tegomin", serif;
+  justify-content: center;
+  margin: 8px;
+  padding: 3px;
+}
+
+.customBtn * {
+  margin: 5px;
+}
+
+.customBtn:hover {
+  background: #b2a59b;
+  color: #faeed1;
+  cursor: pointer;
+}
+
+.customBtn:disabled {
+  background: rgb(192, 192, 192);
+  color: rgb(97, 97, 97);
+}
+
+.customBtn:disabled:hover {
+  background: rgb(192, 192, 192);
+  color: rgb(97, 97, 97);
+  cursor: default;
+}
+
+.displayBox {
+  background: #ded0b6;
+  border: #b2a59b 5px solid;
+  margin: 5px;
+  padding: 5px;
+}
+
+.textField {
+  height: 38px;
+  margin: 8px 0;
+  width: 85%;
+}
+
+.modal {
+  background: #ded0b6;
+  font-family: "New Tegomin", serif;
+}
+
+.modal .modalBreak {
+  border: #b2a59b solid 3px;
+  width: 100%;
+}
+
+.modalFooter {
+  background: #b2a59b;
+  height: 50px;
+  padding-top: 10px;
+}
+
+.modalFooter button {
+  margin: 0 auto;
+  width: 80%;
+}
+
+.errorBox {
+  background: #ded0b6;
+  border: #b2a59b 5px solid;
+  color: rgb(224, 13, 13);
+  margin: 5px auto;
+  padding: 5px;
+  text-align: center;
+  width: 50%;
+}
+
+.spinner {
+  animation: spinIcon 1s linear infinite;
+  color: rgb(224, 13, 13);
+}
+
+@keyframes spinIcon {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }

@@ -1,9 +1,43 @@
-.goalListCard {
-  background-color: #f6df84;
-  margin: 8px auto;
-  transition: filter 0.2s ease-in-out;
-  width: 80%;
+.goalListCardContainer {
+  font-family: "New Tegomin", serif;
+  max-width: 1000px;
+  margin: 0 auto;
 }
+
+.goalListCard {
+  background: #ded0b6;
+  filter: drop-shadow(9px 9px 0px #000000);
+  font-family: "New Tegomin", serif;
+  margin: 5px auto;
+}
+
+.goalListCardHeader {
+  align-items: center;
+  border-bottom: dashed 1px black;
+  display: flex;
+  flex-direction: row;
+  height: 50px;
+  justify-content: center;
+  position: relative;
+}
+
+.goalListCardHeader h2 {
+  align-self: center;
+  display: block;
+  font-size: 1.5em;
+}
+
+.goalListCardHeader button {
+  font-size: 0.8em;
+  position: absolute;
+  right: 10px;
+}
+
+/* .goalListCardHeaderControls {
+  display: flex;
+  flex-direction: row;
+  font-size: 1.2em;
+} */
 
 .goalListCardBody {
   display: flex;
@@ -13,6 +47,8 @@
 }
 
 .goalListCardCategory {
+  display: flex;
+  flex-direction: column;
   width: 30%;
 }
 
@@ -21,8 +57,18 @@
   width: 60%;
 }
 
-.goalListCardFooter {
+.goalListCardBodyForm {
   display: flex;
   flex-direction: row;
+}
+
+.goalListCardFooter {
+  background: #b2a59b;
+  display: flex;
+  flex-direction: row;
+  height: 25px;
   justify-content: space-between;
+  margin-top: 5px;
+  padding-bottom: 1px;
+  padding-left: 5px;
 }

@@ -1,7 +1,5 @@
-// import { Navbar, Button } from "react-bootstrap";
-import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
-// import { User } from "../models/user";
+import utilStyles from "../styles/Utils.module.css";
 import * as UsersApi from "../network/users_api";
 
 interface NavBarLoggedInViewPropsInterface {
@@ -24,12 +22,14 @@ const NavBarLoggedInView = ({
   return (
     <>
       <Link to="/">
-        <Button>Calendar</Button>
+        <button className={utilStyles.customBtn}>Calendar</button>
       </Link>
       <Link to="/goals">
-        <Button>Goals</Button>
+        <button className={utilStyles.customBtn}>Goals</button>
       </Link>
-      <Button onClick={logout}>Logout</Button>
+      <button className={utilStyles.customBtn} onClick={logout}>
+        Logout
+      </button>
     </>
   );
 };

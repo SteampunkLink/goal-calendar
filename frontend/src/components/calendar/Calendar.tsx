@@ -1,13 +1,14 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { Container, Row, Col, Button, Spinner } from "react-bootstrap";
+import { Spinner } from "react-bootstrap";
 import { FaArrowAltCircleLeft, FaArrowAltCircleRight } from "react-icons/fa";
 import styles from "../../styles/Calendar.module.css";
+import utilStyles from "../../styles/Utils.module.css";
 import monthEnum from "../../utils/monthEnum";
 import generateCalendar from "../../utils/gerateCalendar";
 import { Achievement } from "../../models/achievement";
 import * as AchievementApi from "../../network/achievements_api";
-import Sticker from "../Sticker";
+import DateCell from "./DateCell";
+import AchievementModal from "./AchievementModal";
 
 const Calendar = () => {
   const today = new Date();
@@ -18,6 +19,8 @@ const Calendar = () => {
   const [achievements, setAchievements] = useState<Achievement[]>([]);
   const [achievementsLoading, setAchievementsLoading] = useState(true);
   const [showAchievementError, setShowAchievementError] = useState(false);
+
+  const [modalDate, setModalDate] = useState<Date | null>(null);
 
   const getStickers = (
     achievement: Achievement,
@@ -42,6 +45,12 @@ const Calendar = () => {
     }
     setDisplayedMonth(newMonthValue);
   };
+
+  const handleAddNewAchievement = (newAchievement: Achievement) => {
+    const updatedAchievementList = [...achievements, newAchievement];
+    setAchievements(updatedAchievementList);
+  };
+
   useEffect(() => {
     const newDates = generateCalendar({
       month: displayedMonth,
@@ -71,59 +80,69 @@ const Calendar = () => {
   return (
     <div>
       <div>
-        {monthEnum[displayedMonth]} {displayedYear}
         {achievementsLoading && <Spinner />}
         {showAchievementError && (
           <div>An error has occured. Please refresh page.</div>
         )}
-        <div>
-          <Button onClick={() => handleChangeMonth(-1)}>
+        <div className={styles.mainControls}>
+          <button
+            className={utilStyles.customBtn}
+            onClick={() => handleChangeMonth(-1)}
+          >
             <FaArrowAltCircleLeft />
-          </Button>
-          <Button onClick={() => handleChangeMonth(1)}>
+          </button>
+          <h2 className={utilStyles.displayBox}>
+            {monthEnum[displayedMonth]} {displayedYear}
+          </h2>
+          <button
+            className={utilStyles.customBtn}
+            onClick={() => handleChangeMonth(1)}
+          >
             <FaArrowAltCircleRight />
-          </Button>
+          </button>
         </div>
       </div>
-      <Container>
-        <Row>
-          <Col>Sun</Col>
-          <Col>Mon</Col>
-          <Col>Tue</Col>
-          <Col>Wed</Col>
-          <Col>Thu</Col>
-          <Col>Fri</Col>
-          <Col>Sat</Col>
-        </Row>
+      <div className={styles.calendarContainer}>
+        <div className={styles.headerRow}>
+          <div>Sun</div>
+          <div>Mon</div>
+          <div>Tue</div>
+          <div>Wed</div>
+          <div>Thu</div>
+          <div>Fri</div>
+          <div>Sat</div>
+        </div>
         {dates.length &&
           dates.map((week, idw) => (
-            <Row key={idw}>
+            <div key={idw} className={styles.calendarWeek}>
               {week.map((date, idd) => (
-                <Col key={idd} className={styles.calendarDate}>
-                  <Link to={`/date/${date.toISOString()}`}>
-                    <div className={styles.calendarDateLabel}>
-                      <h3>{`${date.getDate()}`}</h3>
-                    </div>
-                    <div className={styles.stickerArea}>
-                      {achievements
-                        .filter((a) =>
-                          getStickers(a, date.getMonth(), date.getDate())
-                        )
-                        .map((a) => (
-                          <Sticker
-                            key={a._id}
-                            stickerSet={a.stickerStyle}
-                            stickerNum={a.stickerNumber}
-                            stickerSize={20}
-                          />
-                        ))}
-                    </div>
-                  </Link>
-                </Col>
+                <DateCell
+                  key={idd}
+                  className={
+                    date.getMonth() === displayedMonth
+                      ? styles.calendarDay
+                      : styles.otherMonth
+                  }
+                  activateModal={() => setModalDate(date)}
+                  dateLabel={date.getDate()}
+                  achievementArr={achievements.filter((a) =>
+                    getStickers(a, date.getMonth(), date.getDate())
+                  )}
+                />
               ))}
-            </Row>
+            </div>
           ))}
-      </Container>
+      </div>
+      {modalDate && (
+        <AchievementModal
+          onDismiss={() => setModalDate(null)}
+          selectedDate={modalDate}
+          achievements={achievements.filter((a) =>
+            getStickers(a, modalDate.getMonth(), modalDate.getDate())
+          )}
+          addNewAchievement={handleAddNewAchievement}
+        />
+      )}
     </div>
   );
 };

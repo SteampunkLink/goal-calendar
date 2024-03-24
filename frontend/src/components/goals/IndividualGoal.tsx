@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { Button } from "react-bootstrap";
 import { FaTimes } from "react-icons/fa";
 import { Goal } from "../../models/goal";
 import * as GoalsApi from "../../network/goals_api";
 import Sticker from "../Sticker";
 import styles from "../../styles/IndividualGoal.module.css";
+import utilStyles from "../../styles/Utils.module.css";
 
 interface IndividualGoalProps {
   categoryId: string;
@@ -32,37 +32,41 @@ const IndividualGoal = ({
     setStickerSelect(false);
   };
   return stickerSelect ? (
-    <>
+    <div className={styles.stickerSelectRow}>
       {stickerArray.map((s) => (
         <button
           key={s}
-          className={styles.stickerSelectButton}
+          className={utilStyles.customBtn}
           onClick={() => handleStickerChange(s)}
         >
           <Sticker stickerSet={stickerStyle} stickerNum={s} stickerSize={30} />
         </button>
       ))}
-    </>
+    </div>
   ) : (
     <div
       className={styles.individualGoal}
       onClick={() => setStickerSelect(true)}
     >
-      <Button
-        variant="outline-danger"
-        onClick={(e) => {
-          e.stopPropagation();
+      <button
+        className={utilStyles.customBtn}
+        onClick={() => {
           confirmDelete();
         }}
       >
-        <FaTimes />
-      </Button>
+        <FaTimes color="red" />
+      </button>
+      <button
+        className={utilStyles.customBtn}
+        onClick={() => setStickerSelect(true)}
+      >
+        <Sticker
+          stickerSet={stickerStyle}
+          stickerNum={stickerNum}
+          stickerSize={20}
+        />
+      </button>
       {goal.text}
-      <Sticker
-        stickerSet={stickerStyle}
-        stickerNum={stickerNum}
-        stickerSize={30}
-      />
     </div>
   );
 };

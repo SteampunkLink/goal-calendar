@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Card } from "react-bootstrap";
 import { FaTrash, FaPencilAlt } from "react-icons/fa";
 import { Category } from "../../models/category";
 import { Goal } from "../../models/goal";
@@ -36,52 +35,57 @@ const CategoryCard = ({
   };
 
   return (
-    <Card className={styles.goalListCard}>
-      <Card.Body className={styles.goalListCardBody}>
-        <div className={styles.goalListCardCategory}>
-          <Card.Title className={utilStyles.flexCenter}>
-            {displayedCategory.title}
-          </Card.Title>
-          <StickerDisplay style={displayedCategory.style} />
-        </div>
-        <div className={styles.goalListCardBodyGoals}>
-          <AddGoalForm
-            categoryId={displayedCategory._id}
-            onAddNewGoal={(newGoal) =>
-              setGoalsInCategory([...goalsInCategory, newGoal])
-            }
-          />
-          {goalsInCategory.length > 0 &&
-            goalsInCategory.map((goal) => (
-              <IndividualGoal
-                key={goal._id}
-                categoryId={displayedCategory._id}
-                stickerStyle={displayedCategory.style}
-                goal={goal}
-                onGoalDelete={(goalId) => handleDelete(goalId)}
-              />
-            ))}
-        </div>
-      </Card.Body>
-      <Card.Footer className={styles.goalListCardFooter}>
-        {createdUpdatedText}
-        <p>Click on a goal to change the sticker.</p>
-        <div>
-          <FaPencilAlt
-            onClick={(e) => {
-              onNoteClicked(displayedCategory);
-              e.stopPropagation();
-            }}
-          />
-          <FaTrash
+    <div className={styles.goalListCardContainer}>
+      <div className={styles.goalListCard}>
+        <div className={styles.goalListCardHeader}>
+          <h2>{displayedCategory.title}</h2>
+          <button
+            className={utilStyles.customBtn}
             onClick={(e) => {
               onDeleteNoteClicked(displayedCategory);
               e.stopPropagation();
             }}
-          />
+          >
+            <FaTrash />
+          </button>
         </div>
-      </Card.Footer>
-    </Card>
+
+        <div className={styles.goalListCardBody}>
+          <div className={styles.goalListCardCategory}>
+            <button
+              className={utilStyles.customBtn}
+              onClick={(e) => {
+                onNoteClicked(displayedCategory);
+                e.stopPropagation();
+              }}
+            >
+              <FaPencilAlt /> Edit Category Properties
+            </button>
+            <StickerDisplay style={displayedCategory.style} />
+          </div>
+
+          <div className={styles.goalListCardBodyGoals}>
+            <AddGoalForm
+              categoryId={displayedCategory._id}
+              onAddNewGoal={(newGoal) =>
+                setGoalsInCategory([...goalsInCategory, newGoal])
+              }
+            />
+            {goalsInCategory.length > 0 &&
+              goalsInCategory.map((goal) => (
+                <IndividualGoal
+                  key={goal._id}
+                  categoryId={displayedCategory._id}
+                  stickerStyle={displayedCategory.style}
+                  goal={goal}
+                  onGoalDelete={(goalId) => handleDelete(goalId)}
+                />
+              ))}
+          </div>
+        </div>
+        <div className={styles.goalListCardFooter}>{createdUpdatedText}</div>
+      </div>
+    </div> // end goalListCardContainer
   );
 };
 
