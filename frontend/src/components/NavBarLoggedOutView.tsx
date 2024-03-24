@@ -1,4 +1,4 @@
-import { Button } from "react-bootstrap";
+import utilStyles from "../styles/Utils.module.css";
 
 interface NavBarLoggedOutViewPropsInterface {
   onRegisterClicked: () => void;
@@ -11,8 +11,12 @@ const NavBarLoggedOutView = ({
 }: NavBarLoggedOutViewPropsInterface) => {
   return (
     <>
-      <Button onClick={onRegisterClicked}>Register</Button>
-      <Button onClick={onLoginClicked}>Login</Button>
+      <button className={utilStyles.customBtn} onClick={onRegisterClicked}>
+        Register
+      </button>
+      <button className={utilStyles.customBtn} onClick={onLoginClicked}>
+        Login
+      </button>
     </>
   );
 };

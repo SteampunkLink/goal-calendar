@@ -1,0 +1,10 @@
+.goalsCalendarNavbar {
+  border-bottom: solid 5px #b2a59b;
+  background: #ded0b6;
+  display: flex;
+  flex-direction: row;
+  font-family: "New Tegomin", serif;
+  height: 50px;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}

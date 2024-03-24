@@ -1,16 +1,23 @@
 .individualGoal {
-  align-items: flex-end;
+  align-items: center;
   display: flex;
   flex-direction: row;
   font-size: 1.2em;
-  justify-content: flex-start;
 }
 
 .individualGoal button {
-  font-size: 0.5em;
+  font-size: 0.8em;
+  height: 40px;
   margin: 5px 8px 5px 0;
+  padding: 0px;
+  width: 40px;
 }
 
-.stickerSelectButton:hover {
-  filter: drop-shadow(5px 5px 10px #000000);
+.stickerSelectRow {
+  display: flex;
+  flex-direction: row;
+}
+
+.stickerSelectRow button {
+  margin: 1px;
 }

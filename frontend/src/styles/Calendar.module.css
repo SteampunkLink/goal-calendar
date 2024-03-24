@@ -1,5 +1,4 @@
-.calendarDate {
-  /* border: black 1px solid; */
+/* .calendarDate {
   min-height: 75px;
   min-width: 50px;
   outline: 1px solid black;
@@ -26,4 +25,99 @@
 
 .stickerArea div {
   display: inline;
+} */
+
+.calendarView {
+  font-family: "New Tegomin", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.mainControls {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  font-family: "New Tegomin", serif;
+  font-size: 1.4em;
+  justify-content: center;
+  width: 100%;
+}
+
+.calendarContainer {
+  background: #ded0b6;
+  border-top-left-radius: 25px;
+  border-top-right-radius: 25px;
+  filter: drop-shadow(9px 9px 0px #000000);
+  font-family: "New Tegomin", serif;
+  margin: 5px auto;
+  width: 90%;
+}
+
+.calendarContainer .headerRow {
+  align-items: flex-end;
+  display: flex;
+  flex-direction: row;
+  font-size: 1.2em;
+  height: 30px;
+  padding: 5px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.calendarContainer .headerRow div {
+  width: 14%;
+}
+
+.calendarContainer .calendarWeek {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  flex-shrink: 1;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+.calendarContainer .calendarWeek .otherMonth {
+  background: #b2a59b;
+}
+
+.calendarDay,
+.otherMonth {
+  border: black 1px solid;
+  display: flex;
+  flex-direction: column;
+  height: 100px;
+  padding: 4px;
+  width: 15%;
+}
+
+.calendarDay:hover,
+.otherMonth:hover {
+  background: #faeed1 !important;
+  cursor: pointer;
+}
+
+.calendarDateLabel {
+  color: black;
+  height: 20px;
+}
+
+.stickerArea {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  height: 50px;
+  width: 100%;
+}
+
+.stickerArea span {
+  display: inline;
+  height: 20px;
+  margin: 1px;
+  width: 20px;
+}
+
+.achievementArea {
+  font-size: 0.8em;
+  height: 30px;
 }

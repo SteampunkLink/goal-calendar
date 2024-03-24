@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { Button, Spinner } from "react-bootstrap";
-import { FaPlus } from "react-icons/fa";
+import { FaPlus, FaSpinner } from "react-icons/fa";
 import * as CategoriesApi from "../../network/categories_api";
 import { Category } from "../../models/category";
 import CategoryCard from "./CategoryCard";
@@ -10,19 +9,14 @@ import utilStyles from "../../styles/Utils.module.css";
 interface GoalsProps {
   categories: Category[];
   goalsLoading: boolean;
-  showGoalsError: boolean;
   setCategories: (categories: Category[]) => void;
 }
 
-const Goals = ({
-  categories,
-  goalsLoading,
-  showGoalsError,
-  setCategories,
-}: GoalsProps) => {
+const Goals = ({ categories, goalsLoading, setCategories }: GoalsProps) => {
   const [showAddEditCategoryModal, setShowAddEditCategoryModal] =
     useState(false);
   const [categoryToEdit, setCategoryToEdit] = useState<Category | null>(null);
+  const [goalError, setGoalError] = useState("");
 
   const deleteCategory = async (categoryToDelete: Category) => {
     try {
@@ -31,7 +25,9 @@ const Goals = ({
         categories.filter((cat) => cat._id !== categoryToDelete._id)
       );
     } catch (error) {
-      console.log(error);
+      setGoalError(
+        "Error occurred while deleting goal. Try again later, or reload page."
+      );
     }
   };
 
@@ -50,26 +46,29 @@ const Goals = ({
 
   return (
     <>
-      <Button
-        className={`mt-4 ${utilStyles.blockCenter} ${utilStyles.flexCenter}`}
-        onClick={() => setShowAddEditCategoryModal(true)}
-      >
-        <FaPlus />
-        Add New Category
-      </Button>
-      {goalsLoading && <Spinner animation="border" variant="primary" />}
-      {showGoalsError && (
-        <p>Sorry, an error has occured. Please refresh the page.</p>
-      )}
-      {!goalsLoading && !showGoalsError && (
-        <>
-          {categories.length > 0 ? (
-            categoryGrid
+      {goalError && <div className={utilStyles.errorBox}>{goalError}</div>}
+      <div className={utilStyles.flexCenter}>
+        <button
+          className={utilStyles.customBtn}
+          onClick={() => setShowAddEditCategoryModal(true)}
+        >
+          {goalsLoading ? (
+            <FaSpinner className={utilStyles.spinner} />
           ) : (
-            <p>No goal lists to display.</p>
+            <FaPlus />
           )}
-        </>
-      )}
+          <span>Add New Category</span>
+        </button>
+      </div>
+
+      <>
+        {categories.length > 0 ? (
+          categoryGrid
+        ) : (
+          <div className={utilStyles.displayBox}>No goal lists to display.</div>
+        )}
+      </>
+
       {showAddEditCategoryModal && (
         <AddEditCategoryModal
           onDismiss={() => setShowAddEditCategoryModal(false)}

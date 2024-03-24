@@ -4,26 +4,34 @@ import * as CategoriesApi from "../network/categories_api";
 import Goals from "./goals/Goals";
 import AchievementForm from "./calendar/AchievementForm";
 import { Achievement } from "../models/achievement";
+import utilStyles from "../styles/Utils.module.css";
 
 interface LoadGoalsProps {
   directTo: string;
-  setNewAchievement: (achievement: Achievement) => void;
+  setNewAchievement: null | ((achievement: Achievement) => void);
+  selectedDate: Date | null;
 }
 
-const LoadGoals = ({ directTo, setNewAchievement }: LoadGoalsProps) => {
+const LoadGoals = ({
+  directTo,
+  setNewAchievement,
+  selectedDate,
+}: LoadGoalsProps) => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [goalsLoading, setGoalsLoading] = useState(true);
-  const [showGoalsError, setShowGoalsError] = useState(false);
+  const [goalsError, setGoalsError] = useState("");
 
   useEffect(() => {
     const loadGoals = async () => {
       try {
-        setShowGoalsError(false);
+        setGoalsError("");
         setGoalsLoading(true);
         const goalData = await CategoriesApi.fetchCategories();
         setCategories(goalData);
       } catch (error) {
-        setShowGoalsError(true);
+        setGoalsError(
+          "Couldn't load categories. Please reload the page or try again later."
+        );
       } finally {
         setGoalsLoading(false);
       }
@@ -37,11 +45,11 @@ const LoadGoals = ({ directTo, setNewAchievement }: LoadGoalsProps) => {
 
   return (
     <>
+      {goalsError && <div className={utilStyles.errorBox}>{goalsError}</div>}
       {directTo === "goals" && (
         <Goals
           categories={categories}
           goalsLoading={goalsLoading}
-          showGoalsError={showGoalsError}
           setCategories={handleSetCategories}
         />
       )}
@@ -49,8 +57,8 @@ const LoadGoals = ({ directTo, setNewAchievement }: LoadGoalsProps) => {
         <AchievementForm
           categories={categories}
           goalsLoading={goalsLoading}
-          showGoalsError={showGoalsError}
-          addNewAchievement={setNewAchievement}
+          addNewAchievement={setNewAchievement!}
+          selectedDate={selectedDate!}
         />
       )}
     </>

@@ -1,5 +1,4 @@
-import { Container } from "react-bootstrap";
-import styles from "../styles/GoalListPage.module.css";
+// import { Container } from "react-bootstrap";
 import UserLoggedOut from "../components/UserLoggedOut";
 import { User } from "../models/user";
 import LoadGoals from "../components/LoadGoals";
@@ -9,15 +8,15 @@ interface GoalListPageProps {
 }
 const GoalListView = ({ loggedInUser }: GoalListPageProps) => {
   return (
-    <Container className={styles.goalListPage}>
+    <div>
       <>
         {loggedInUser ? (
-          <LoadGoals directTo="goals" />
+          <LoadGoals directTo="goals" setNewAchievement={null} />
         ) : (
           <UserLoggedOut text="Please log in to view your goals." />
         )}
       </>
-    </Container>
+    </div>
   );
 };
 

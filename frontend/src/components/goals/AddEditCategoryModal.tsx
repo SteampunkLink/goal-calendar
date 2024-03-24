@@ -1,9 +1,10 @@
-import { Modal, Form, Button } from "react-bootstrap";
+import { Modal, Form } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { Category } from "../../models/category";
 import { CategoryInputInterface } from "../../network/categories_api";
 import TextInput from "../form/TextInput";
 import * as CategoriesApi from "../../network/categories_api";
+import utilStyles from "../../styles/Utils.module.css";
 
 interface AddEditCategoryModalProps {
   categoryToEdit?: Category;
@@ -45,49 +46,54 @@ const AddEditCategoryModal = ({
   };
   return (
     <Modal show onHide={onDismiss}>
-      <Modal.Header closeButton>
-        <Modal.Title>
-          {categoryToEdit ? "Edit Category" : "Add New Category"}
-        </Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        <Form id="addEditCategoryForm" onSubmit={handleSubmit(onSubmit)}>
-          <TextInput
-            name="title"
-            label="Title"
-            type="text"
-            placeholder="Title"
-            register={register}
-            registerOptions={{ required: "Required" }}
-            error={errors.title}
-          />
+      <div className={utilStyles.modal}>
+        <Modal.Header closeButton>
+          <Modal.Title>
+            {categoryToEdit ? "Edit Category" : "Add New Category"}
+          </Modal.Title>
+        </Modal.Header>
+        <div className={utilStyles.modalBreak} />
+        <Modal.Body>
+          <Form id="addEditCategoryForm" onSubmit={handleSubmit(onSubmit)}>
+            <TextInput
+              name="title"
+              label="Title"
+              type="text"
+              placeholder="Title"
+              register={register}
+              registerOptions={{ required: "Required" }}
+              error={errors.title}
+            />
 
-          <Form.Group className="mb-3">
-            <Form.Label>List Theme</Form.Label>
-            <Form.Select
-              {...register("style", { required: "Required" })}
-              isInvalid={!!errors.style}
-            >
-              <option value="stars">Stars</option>
-              <option value="music">Music</option>
-              <option value="fitness">Fitness</option>
-              <option value="games">Games</option>
-            </Form.Select>
-            <Form.Control.Feedback type="invalid">
-              {errors.style?.message}
-            </Form.Control.Feedback>
-          </Form.Group>
-        </Form>
-      </Modal.Body>
-      <Modal.Footer>
-        <Button
-          type="submit"
-          form="addEditCategoryForm"
-          disabled={isSubmitting}
-        >
-          Submit
-        </Button>
-      </Modal.Footer>
+            <Form.Group className="mb-3">
+              <Form.Label>List Theme</Form.Label>
+              <Form.Select
+                {...register("style", { required: "Required" })}
+                isInvalid={!!errors.style}
+              >
+                <option value="stars">Stars</option>
+                <option value="music">Music</option>
+                <option value="fitness">Fitness</option>
+                <option value="games">Games</option>
+              </Form.Select>
+              <Form.Control.Feedback type="invalid">
+                {errors.style?.message}
+              </Form.Control.Feedback>
+            </Form.Group>
+          </Form>
+        </Modal.Body>
+        <div className={utilStyles.modalBreak} />
+        <div className={utilStyles.modalFooter}>
+          <button
+            className={utilStyles.customBtn}
+            type="submit"
+            form="addEditCategoryForm"
+            disabled={isSubmitting}
+          >
+            Submit
+          </button>
+        </div>
+      </div>
     </Modal>
   );
 };

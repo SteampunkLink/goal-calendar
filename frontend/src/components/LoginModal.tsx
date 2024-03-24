@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Modal, Form, Button, Alert } from "react-bootstrap";
+import { Modal, Form, Alert } from "react-bootstrap";
 import { User } from "../models/user";
 import { LoginCredentialsInterface } from "../network/users_api";
 import * as UsersApi from "../network/users_api";
@@ -38,39 +38,46 @@ const LoginModal = ({
   };
   return (
     <Modal show onHide={onDismiss}>
-      <Modal.Header closeButton>
-        <Modal.Title>Login</Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        {errorText && <Alert variant="danger">{errorText}</Alert>}
-        <Form onSubmit={handleSubmit(onSubmit)}>
-          <TextInput
-            name="username"
-            label="Username"
-            type="text"
-            placeholder="Username"
-            register={register}
-            registerOptions={{ required: "Required" }}
-            error={errors.username}
-          />
-          <TextInput
-            name="password"
-            label="Password"
-            type="password"
-            placeholder="Password"
-            register={register}
-            registerOptions={{ required: "Required" }}
-            error={errors.password}
-          />
-          <Button
+      <div className={utilStyles.modal}>
+        <Modal.Header closeButton>
+          <Modal.Title>Login</Modal.Title>
+        </Modal.Header>
+        <div className={utilStyles.modalBreak} />
+        <Modal.Body>
+          {errorText && <Alert variant="danger">{errorText}</Alert>}
+          <Form id="loginform" onSubmit={handleSubmit(onSubmit)}>
+            <TextInput
+              name="username"
+              label="Username"
+              type="text"
+              placeholder="Username"
+              register={register}
+              registerOptions={{ required: "Required" }}
+              error={errors.username}
+            />
+            <TextInput
+              name="password"
+              label="Password"
+              type="password"
+              placeholder="Password"
+              register={register}
+              registerOptions={{ required: "Required" }}
+              error={errors.password}
+            />
+          </Form>
+        </Modal.Body>
+        <div className={utilStyles.modalBreak} />
+        <div className={utilStyles.modalFooter}>
+          <button
             type="submit"
+            form="loginform"
             disabled={isSubmitting}
-            className={utilStyles.width100}
+            className={utilStyles.customBtn}
           >
-            Register
-          </Button>
-        </Form>
-      </Modal.Body>
+            Login
+          </button>
+        </div>
+      </div>
     </Modal>
   );
 };

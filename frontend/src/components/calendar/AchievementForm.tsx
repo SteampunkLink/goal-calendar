@@ -1,29 +1,25 @@
 import { useState } from "react";
-import { useParams } from "react-router-dom";
-import { Form, Spinner, Button } from "react-bootstrap";
+import { FaStar, FaSpinner } from "react-icons/fa";
+import { Form } from "react-bootstrap";
 import { Category } from "../../models/category";
 import { Goal } from "../../models/goal";
 import * as AchievementApi from "../../network/achievements_api";
 import { Achievement } from "../../models/achievement";
+import utilStyles from "../../styles/Utils.module.css";
 
 interface AchievementFormProps {
   categories: Category[];
   goalsLoading: boolean;
-  showGoalsError: boolean;
   addNewAchievement: (achievement: Achievement) => void;
+  selectedDate: Date;
 }
-
-type DateViewParams = {
-  dateISO: string;
-};
 
 const AchievementForm = ({
   categories,
   goalsLoading,
-  showGoalsError,
   addNewAchievement,
+  selectedDate,
 }: AchievementFormProps) => {
-  const { dateISO } = useParams<DateViewParams>();
   const [selectedCategory, setSelectedCategory] = useState<Category | null>(
     null
   );
@@ -53,12 +49,18 @@ const AchievementForm = ({
 
   const handleNewAchievement = async (e: any) => {
     e.preventDefault();
-    if (selectedCategory && selectedGoal && dateISO) {
+    console.log(
+      "Achievement Form 1",
+      selectedCategory!.style,
+      selectedGoal!.text,
+      selectedDate.toISOString()
+    );
+    if (selectedCategory && selectedGoal && selectedDate) {
       const newAchievement = await AchievementApi.createAchievement({
         goalText: selectedGoal.text,
         stickerStyle: selectedCategory.style,
         stickerNumber: selectedGoal.sticker,
-        dateAchieved: dateISO,
+        dateAchieved: selectedDate.toISOString(),
       });
       // TODO error handling, clear form
       addNewAchievement(newAchievement);
@@ -68,11 +70,16 @@ const AchievementForm = ({
   };
   return (
     <>
-      <h2>Add an Achievement</h2>
-      {goalsLoading && <Spinner animation="border" variant="primary" />}
-      {showGoalsError && (
-        <p>Sorry, an error has occured. Please refresh the page.</p>
-      )}
+      <h2>
+        {goalsLoading ? (
+          <FaSpinner className={utilStyles.spinner} />
+        ) : (
+          <>
+            <FaStar /> <span>Add an Achievement</span>
+          </>
+        )}
+      </h2>
+
       <Form onSubmit={handleNewAchievement}>
         <select onChange={(e) => selectACategory(e)}>
           <option>Select a Category</option>
@@ -92,7 +99,9 @@ const AchievementForm = ({
               </option>
             ))}
         </select>
-        <Button type="submit">Submit</Button>
+        <button className={utilStyles.customBtn} type="submit">
+          Submit
+        </button>
       </Form>
     </>
   );
