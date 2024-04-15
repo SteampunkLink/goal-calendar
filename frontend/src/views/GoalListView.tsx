@@ -1,4 +1,3 @@
-// import { Container } from "react-bootstrap";
 import UserLoggedOut from "../components/UserLoggedOut";
 import { User } from "../models/user";
 import LoadGoals from "../components/LoadGoals";
@@ -11,7 +10,11 @@ const GoalListView = ({ loggedInUser }: GoalListPageProps) => {
     <div>
       <>
         {loggedInUser ? (
-          <LoadGoals directTo="goals" setNewAchievement={null} />
+          <LoadGoals
+            directTo="goals"
+            setNewAchievement={null}
+            selectedDate={null}
+          />
         ) : (
           <UserLoggedOut text="Please log in to view your goals." />
         )}

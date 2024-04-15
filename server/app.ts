@@ -1,3 +1,4 @@
+import path from "path";
 import "dotenv/config";
 import express, { NextFunction, Request, Response } from "express";
 import morgan from "morgan";
@@ -35,6 +36,18 @@ app.use("/api/users", userRoutes);
 app.use("/api/categories", requiresAuth, categoryRoutes);
 app.use("/api/goals", requiresAuth, goalRoutes);
 app.use("/api/achievements", requiresAuth, achievementRoutes);
+
+if (env.NODE_ENV === "PRODUCTION") {
+  const rootDirectory = path.join(__dirname, "..", "..", "frontend", "dist");
+  app.use(express.static(rootDirectory));
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(rootDirectory, "index.html"));
+  });
+} else {
+  app.get("/", (req, res) => {
+    res.send(`Server is running in ${env.NODE_ENV}`);
+  });
+}
 
 // error handlers
 app.use((req, res, next) => {
