@@ -4,11 +4,12 @@
   "description": "",
   "main": "server/dist/server.js",
   "scripts": {
-    "start": "node server/server.ts",
+    "start": "export NODE_ENV=PRODUCTION && node server/dist/server.js",
     "server": "nodemon server/server.ts",
     "client": "npm run dev --prefix frontend",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "tsc": "tsc --project ./server",
+    "build": "npm run tsc && npm run build --prefix frontend"
   },
   "keywords": [],
   "author": "",
