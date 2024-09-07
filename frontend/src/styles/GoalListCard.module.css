@@ -33,12 +33,6 @@
   right: 10px;
 }
 
-/* .goalListCardHeaderControls {
-  display: flex;
-  flex-direction: row;
-  font-size: 1.2em;
-} */
-
 .goalListCardBody {
   display: flex;
   flex-direction: row;
@@ -71,4 +65,18 @@
   margin-top: 5px;
   padding-bottom: 1px;
   padding-left: 5px;
+}
+
+@media (max-width: 580px) {
+  .goalListCardBody {
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+  }
+  .goalListCardCategory {
+    width: 100%;
+  }
+  .goalListCardBodyGoals {
+    width: 100%;
+  }
 }
