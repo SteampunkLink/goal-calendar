@@ -10,6 +10,7 @@ import GoalListView from "./views/GoalListView";
 import AboutView from "./views/AboutView";
 import PageNotFoundView from "./views/PageNotFoundView";
 import CalendarView from "./views/CalendarView";
+import utilStyles from "./styles/Utils.module.css";
 
 function App() {
   const [loggedInUser, setLoggedInUser] = useState<User | null>(null);
@@ -36,7 +37,7 @@ function App() {
           onLoginClicked={() => setShowLoginModal(true)}
           onLogoutSuccess={() => setLoggedInUser(null)}
         />
-        <Container>
+        <Container className={utilStyles.contentContainer}>
           <Routes>
             <Route
               path="/"

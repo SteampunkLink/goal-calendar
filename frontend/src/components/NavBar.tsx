@@ -22,10 +22,13 @@ const NavBar = ({
     <Navbar className={styles.goalsCalendarNavbar} expand="sm" sticky="top">
       <Container>
         <Navbar.Brand as={Link} to="/">
-          Goals Calendar
+          <h1>Goals Calendar</h1>
         </Navbar.Brand>
-        <Navbar.Toggle aria-controls="main-navbar"></Navbar.Toggle>
-        <Navbar.Collapse id="main-navbar">
+        <Navbar.Toggle
+          className={styles.navbarToggleBtn}
+          aria-controls="main-navbar"
+        ></Navbar.Toggle>
+        <Navbar.Collapse id="main-navbar" className={styles.navbarDropdown}>
           <Nav>
             <Nav.Link as={Link} to="/about">
               About

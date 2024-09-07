@@ -124,3 +124,10 @@
     transform: rotate(360deg);
   }
 }
+
+@media (max-width: 580px) {
+  .contentContainer {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+}
